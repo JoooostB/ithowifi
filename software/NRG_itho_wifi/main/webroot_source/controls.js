@@ -591,6 +591,16 @@ $(document).ready(function () {
         ithotimestamp: $('#itho_ce30_timestamp').val()
       }));
     }
+    else if ($(this).attr('id') == 'button4030') { 
+      websock.send(JSON.stringify({
+        ithobutton: 4030,
+        idx: Number($('#itho_4030_index').val()),
+        dt: Number($('#itho_4030_datatype').val()),
+        val: Number($('#itho_4030_value').val()),
+        chk: Number($('#itho_4030_checked').val()),
+        dryrun: ($('#itho_4030_password').val() == 'thisisunsafe') ? false : true, 
+      })); 
+    }
     else if ($(this).attr('id') == 'ithogetsettings') {
       settingIndex = 0;
       websock.send(JSON.stringify({
@@ -861,7 +871,7 @@ function update_page(page) {
   if (page == 'reset') { $('#main').append(html_reset); }
   if (page == 'update') { $('#main').append(html_update); }
   if (page == 'debug') { $('#main').append(html_debug); $('#main').css('max-width', '1600px') }
-  if (page == 'i2cdebug') { $('#main').append(html_i2cdebug); }
+  if (page == 'i2cdebug') { $('#main').append(); }
 
 
 }
@@ -1270,8 +1280,6 @@ function addAllColumnHeaders(jsonVar, selector, appendRow) {
   return columnSet;
 }
 
-
-
 //
 // HTML string literals
 //
@@ -1389,6 +1397,22 @@ var html_debug = `
                 Valid until(timestamp) <input id="itho_ce30_timestamp" type="number" min="0" max="2147483647" size="12"
                     value="0"><br>
                 <span>Result:&nbsp;</span><span id="itho_ce30_result"></span><br>
+                <br>
+                <span style="color:red">Warning!!<br>
+                4030 "Manual control" is VERY dangerous!!<br>
+                Use with care and use only if you know what you are doing!</span><br>                
+                <button id="button4030" class="pure-button pure-button-primary">Set 4030 Manual Control</button>
+                Index: <input id="itho_4030_index" type="text" size="5">
+                Datatype: <input id="itho_4030_datatype" type="text" size="5">
+                Value: <input id="itho_4030_value" type="text" size="5">
+                Checked: <input id="itho_4030_checked" ttype="text" size="2"><br>
+                Password: "thisisunsafe": <input id="itho_4030_password" type="string" size="15"><br> 
+                <span>i2c command:&nbsp;</span><span id="itho_4030_i2c_command"></span>
+                <span>Result:&nbsp;</span><span id="itho_4030_result"></span><br>
+                <span style="color:red">
+                WPU 5G: Make sure you set the "Max manual operation time" setting in the settings page.<br>
+                The itho unit will remain in manual mode until the timer expires. 0 means unlimited.<br>
+                Warning!!<br></vr></span><br>
             </fieldset><br><br><br>
         </fieldset>
     </form>
